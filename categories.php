@@ -96,7 +96,8 @@ $welcome_string="Good evening, ";
 
 try {
 //$fan_id=$_SERVER['REMOTE_USER'];	
-$fan_id=filter_input(INPUT_SERVER, 'REMOTE_USER');	// new Nov 2023			 
+//$fan_id=filter_input(INPUT_SERVER, 'REMOTE_USER');	// new Nov 2023	- doesnt work beacuse of bug?
+$fan_id=filter_var($_SERVER['REMOTE_USER'],FILTER_UNSAFE_RAW, FILTER_NULL_ON_FAILURE);  // Jan 2024	
 $stmt = $conn->prepare('SELECT * FROM store_staff WHERE fan_id = :fan_id');
 $stmt->bindParam(':fan_id', $fan_id, PDO::PARAM_STR);
 $stmt->execute(); 	 
