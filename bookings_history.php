@@ -36,12 +36,17 @@ include ('pdo.php');
 $todays_date=date('Y').".".date('n').".".date('d');
 
 
-
-$fan_id=$_SERVER["REMOTE_USER"];	//was  'fili0008'
+try{
+$fan_id=filter_var($_SERVER['REMOTE_USER'],FILTER_UNSAFE_RAW, FILTER_NULL_ON_FAILURE);  // Jan 2024	 
 $stmt2 = $conn->prepare('SELECT * FROM store_staff WHERE fan_id = :fan_id');
 $stmt2->bindParam(':fan_id', $fan_id, PDO::PARAM_STR);
 $stmt2->execute();	 
-
+}
+catch (Exception $e) {
+echo 'Message: ' .$e->getMessage('An error occured'), "\n";	
+}	 
+	 
+	 
 	 
 while ($row2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {	
 $first_name=$row2['first_name'];
@@ -51,8 +56,10 @@ $last_name=$row2['last_name'];
 	 
 echo "<h4>".$first_name." ".$last_name."'s booking history</h4><p>";
 
-$fan=$_SERVER["REMOTE_USER"]; 
-$booking_date=$row['booking_date'];	 
+$fan=filter_var($_SERVER['REMOTE_USER'],FILTER_UNSAFE_RAW, FILTER_NULL_ON_FAILURE);  // Jan 2024	 
+$booking_date=$row['booking_date'];	
+
+	 
 $stmt = $conn->prepare('SELECT * FROM store_bookings WHERE fan = :fan ORDER BY booking_date DESC');
 $stmt->bindParam(':fan', $fan, PDO::PARAM_STR);
 	 
@@ -128,23 +135,28 @@ break;
 }
 
 
-
+try{
 $stmt4 = $conn->prepare('SELECT item, cat_id FROM store_items  WHERE barcode = :barcode');
 $stmt4->bindParam(':barcode', $barcode, PDO::PARAM_STR);
 $stmt4->execute();	 
-	
-
+}
+catch (Exception $e) {
+echo 'Message: ' .$e->getMessage('An error occured'), "\n";	
+}
 while ($row4 = $stmt4->fetch(PDO::FETCH_ASSOC)) {		
 
 $item=$row4['item'];
 $cat=$row4['cat_id'];
 }
 
-	
+try{	
 $stmt3 = $conn->prepare('SELECT category FROM store_category  WHERE cat_id = :cat_id');
 $stmt3->bindParam(':cat_id', $cat, PDO::PARAM_INT);
 $stmt3->execute();	 
-	
+}
+catch (Exception $e) {
+echo 'Message: ' .$e->getMessage('An error occured'), "\n";	
+}	
 while ($row3 = $stmt3->fetch(PDO::FETCH_ASSOC)) {	
 $category=$row3['category'];
 	

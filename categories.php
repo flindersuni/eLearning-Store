@@ -5,10 +5,7 @@ include('bootstrap/boot1_ehlstore_bookings.html');
 $line_1="Restricted/hidden categories = <span class='css3-blink'>H</span>";
     include('staff_check.php'); 
     include ('pdo.php');
-	//$sql="SELECT * FROM store_staff WHERE fan_id = '$auth_user'";
 
-	//$result = pg_query($sql);
-	//$nrows = pg_numrows($result);
  
 	 ?>
 <head>
@@ -95,8 +92,7 @@ $welcome_string="Good evening, ";
 
 
 try {
-//$fan_id=$_SERVER['REMOTE_USER'];	
-//$fan_id=filter_input(INPUT_SERVER, 'REMOTE_USER');	// new Nov 2023	- doesnt work beacuse of bug?
+
 $fan_id=filter_var($_SERVER['REMOTE_USER'],FILTER_UNSAFE_RAW, FILTER_NULL_ON_FAILURE);  // Jan 2024	
 $stmt = $conn->prepare('SELECT * FROM store_staff WHERE fan_id = :fan_id');
 $stmt->bindParam(':fan_id', $fan_id, PDO::PARAM_STR);
@@ -111,13 +107,13 @@ $first_name=$row['first_name'];
 }      
  echo "$welcome_string ".$first_name."<br />";
 
-//end date bit 
+
 
 echo "Pick a category from below. ";
 
 
  
-if ($admin=="1") {
+if ($admin=="1") {  //test if admin role
 
 
 $visibility='r';

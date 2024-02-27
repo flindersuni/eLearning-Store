@@ -7,11 +7,9 @@ include ('pdo.php');
 	 ?>
 <head>
 <?php
-//$cat_id=$_GET['cat_id']; /// old Nov 2023
+
 $cat_id=filter_input(INPUT_GET, 'cat_id');	/// new Nov 2023
-//$inMonth=$_GET['inMonth'];
 $inMonth=filter_input(INPUT_GET, 'inMonth');	/// new Nov 2023	
-//$inYear=$_GET['inYear'];
 $inYear=filter_input(INPUT_GET, 'inYear');	/// new Nov 2023
 	
 if ($inMonth==NULL) {
@@ -85,13 +83,12 @@ echo "<h4>".$category." bookings for </h4> " ; //cut out ".date ('M Y', mktime(0
 
 //if ($_GET['search']) { //added'' for php 8.2
 if	(filter_input(INPUT_GET, 'search')) {
-//$search=$_GET['search']; /// old Nov 2023
+
 $search=filter_input(INPUT_GET, 'search');	/// new Nov 2023
-//$orderby=$_GET['order'];
+
 $orderby=filter_input(INPUT_GET, 'orderby');	/// new Nov 2023
 }
 else {
-//$search = $_POST['search'];
 $search=filter_input(INPUT_POST, 'search');	/// new Nov 2023	
 $orderby="date_1";
 
@@ -178,8 +175,7 @@ echo "<td width ='15' align='center' style='background-color:".$date_style."'>$a
 echo "</tr>\n";
 
 
-/////
-$cat_id=$_GET['cat_id'];
+$cat_id=filter_input(INPUT_GET, 'cat_id');	
 $store_status='r';	
 $stmt2 = $conn->prepare('SELECT * FROM store_items WHERE cat_id = :cat_id AND store_status!= :store_status ORDER BY item');
 $stmt2->bindParam(':cat_id', $cat_id, PDO::PARAM_INT);
@@ -188,8 +184,6 @@ $stmt2->execute();
 ////	  
 
 while ($row2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {		 
-
-
 
 
 $day = '01';
@@ -263,7 +257,7 @@ case 's':
 
 
 if ($count_fan!='yes') {
-if ($category_visibility=='1' || $admin=='1') {	
+if ($category_visibility=='1' || $admin=='1') {	//lets admins book via link
 echo "<td> <a href=bookings.php?barcode=".$barcode."&n=$inMonth&Y=$inYear>".$item."</a></td>";
 }else{
 
@@ -303,10 +297,10 @@ echo "</tr>";
 
 
 $count_fan='no';
-}//fan count
+}
 
 
-print "</table>\n";
+echo "</table>\n";
 
 if (!$stmt) {
   echo "An error occured.\n";

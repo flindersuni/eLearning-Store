@@ -7,20 +7,20 @@ include('bootstrap/boot1_ehlstore_bookings.html');
     include ('pdo.php');
 ////////////////// if admin, you can book items in restricted categories
 
-$fan=$_SERVER['REMOTE_USER'];
+$fan=filter_var($_SERVER['REMOTE_USER'],FILTER_UNSAFE_RAW, FILTER_NULL_ON_FAILURE);  // Jan 2024	
 try {
 $stmt = $conn->prepare('SELECT * FROM store_admin_staff WHERE fan = :fan');
 $stmt->bindParam(':fan', $fan, PDO::PARAM_STR);
 $stmt->execute(); 
 }	 
-/////////////
+
 catch (Exception $e) {
 echo 'Message: ' .$e->getMessage('An error occured'), "\n";	
 }	
 
 
 
-if ($stmt)  { //was if (!$result)
+if ($stmt)  { 
 	
 $cat_id=filter_input(INPUT_GET, 'cat_id');	// new Nov 2023	
 	
@@ -29,11 +29,9 @@ $stmt->bindParam(':cat_id', $cat_id, PDO::PARAM_INT);
 $stmt->execute(); 	
 
 
-	$admin==1;//temp addition for PHP 8 testing
+	//$admin==1;//temp addition for PHP 8 testing
 	if ($row['visibility']==0&&$admin!=1){	
-//$denied='hidden_items.php';                   //added for non sql1
-   // header('Location: '. $denied, false);
-   // exit;	
+
 	
 	} 
 
@@ -70,15 +68,13 @@ $stmt->execute();
  <div class="col-md-8">
 	 
 <!--  body begins GF -->
- <?php //include($pagedetails['header']); ?>
+
 <!-- &&& -->
 
 <?php 
  include ('pdo.php');
 
 
-//////////
-//$cat_id=$_GET['cat_id']; //old Nov 2023  
 $cat_id=filter_input(INPUT_GET, 'cat_id');	// new Nov 2023		
 $stmt = $conn->prepare('SELECT category FROM store_category WHERE cat_id= :cat_id');
 $stmt->bindParam(':cat_id', $cat_id, PDO::PARAM_INT);
@@ -107,7 +103,6 @@ echo "<a class='btn btn-primary btn-xs' href='items.php?cat_id=".$cat_id."&store
 echo "</div><p>";
 
 
-//$cat_id=$_GET['cat_id']; //old Nov 2023  
 $cat_id=filter_input(INPUT_GET, 'cat_id');	// new Nov 2023	
 $store_location='b';		
 $store_status='r';	
@@ -116,7 +111,7 @@ $stmt->bindParam(':cat_id', $cat_id, PDO::PARAM_INT);
 $stmt->bindParam(':store_location', $store_location, PDO::PARAM_STR);	
 $stmt->bindParam(':store_status', $store_status, PDO::PARAM_STR);	
 $stmt->execute(); 	
-/////////	
+	
 } else if($store_location=='c') {
 echo "<div class='btn-toolbar' role='toolbar'>";
 echo "<a class='btn btn-primary btn-xs' href='items.php?cat_id=".$cat_id."' role='button'>all stores</a>";
@@ -138,7 +133,7 @@ $stmt->bindParam(':cat_id', $cat_id, PDO::PARAM_INT);
 $stmt->bindParam(':store_location', $store_location, PDO::PARAM_STR);	
 $stmt->bindParam(':store_status', $store_status, PDO::PARAM_STR);	
 $stmt->execute(); 	
-/////////	
+	
 } else if($store_location=='e') {
 echo "<div class='btn-toolbar' role='toolbar'>";
 echo "<a class='btn btn-primary btn-xs' href='items.php?cat_id=".$cat_id."' role='button'>all stores</a>";
@@ -160,7 +155,7 @@ $stmt->bindParam(':cat_id', $cat_id, PDO::PARAM_INT);
 $stmt->bindParam(':store_location', $store_location, PDO::PARAM_STR);	
 $stmt->bindParam(':store_status', $store_status, PDO::PARAM_STR);	
 $stmt->execute(); 	
-/////////	
+	
 } else if($store_location=='h') {
 echo "<div class='btn-toolbar' role='toolbar'>";
 echo "<a class='btn btn-primary btn-xs' href='items.php?cat_id=".$cat_id."' role='button'>all stores</a>";
@@ -181,7 +176,7 @@ $stmt->bindParam(':cat_id', $cat_id, PDO::PARAM_INT);
 $stmt->bindParam(':store_location', $store_location, PDO::PARAM_STR);	
 $stmt->bindParam(':store_status', $store_status, PDO::PARAM_STR);	
 $stmt->execute(); 	
-/////////	
+	
 } else if($store_location=='m') {
 echo "<div class='btn-toolbar' role='toolbar'>";
 echo "<a class='btn btn-primary btn-xs' href='items.php?cat_id=".$cat_id."' role='button'>all stores</a>";
@@ -202,7 +197,7 @@ $stmt->bindParam(':cat_id', $cat_id, PDO::PARAM_INT);
 $stmt->bindParam(':store_location', $store_location, PDO::PARAM_STR);	
 $stmt->bindParam(':store_status', $store_status, PDO::PARAM_STR);	
 $stmt->execute(); 	
-/////////	
+
 } else if($store_location=='n') {
 echo "<div class='btn-toolbar' role='toolbar'>";
 echo "<a class='btn btn-primary btn-xs' href='items.php?cat_id=".$cat_id."' role='button'>all stores</a>";
@@ -224,7 +219,7 @@ $stmt->bindParam(':cat_id', $cat_id, PDO::PARAM_INT);
 $stmt->bindParam(':store_location', $store_location, PDO::PARAM_STR);	
 $stmt->bindParam(':store_status', $store_status, PDO::PARAM_STR);	
 $stmt->execute(); 	
-/////////	
+	
 } else if($store_location=='s') {
 echo "<div class='btn-toolbar' role='toolbar'>";
 echo "<a class='btn btn-primary btn-xs' href='items.php?cat_id=".$cat_id."' role='button'>all stores</a>";
@@ -237,7 +232,7 @@ echo "<a class='btn btn-primary btn-xs' href='items.php?cat_id=".$cat_id."&store
 echo "<a class='btn btn-success btn-xs' href='#' role='button'>SE store</a>";
 echo "</div><p>";
 
-//////////
+
 $cat_id=filter_input(INPUT_GET, 'cat_id');	// new Nov 2023	
 $store_location='s';		
 $store_status='r';	
@@ -246,7 +241,7 @@ $stmt->bindParam(':cat_id', $cat_id, PDO::PARAM_INT);
 $stmt->bindParam(':store_location', $store_location, PDO::PARAM_STR);	
 $stmt->bindParam(':store_status', $store_status, PDO::PARAM_STR);	
 $stmt->execute(); 	
-/////////		
+		
 } else { 
 echo "<div class='btn-toolbar' role='toolbar'>";
 echo "<a class='btn btn-success btn-xs' href='#' role='button'>all stores</a>";
@@ -331,7 +326,6 @@ echo "<td><a class='btn btn-danger btn-xs'  href='#' role='button'>unavailable</
 }else{
 
 echo "<td><a class='btn btn-success btn-xs'  href='bookings.php?barcode=$barcode&n=$n&Y=$Y' role='button'>bookings</a></td>";
-//echo "<td>".$row['store_status']."</td>";	
 	
 
 	
@@ -342,7 +336,7 @@ echo"</tr>";
        }
 echo "</table>\n";
 
-//}
+
 		
 if (!$stmt) {                     
   echo "An error occured.\n";
