@@ -31,17 +31,22 @@ include('bootstrap/boot1_ehlstore_bookings.html');
 <?php     
 include ('pdo.php');
   
-//$date_query=$_POST['booked_day'];
 $todays_date=date('Y').".".date('m').".".date('d');
 $todays_date2=date('d')."-".date('m')."-".date('Y');
 
-$fan=$_SERVER["REMOTE_USER"];
-$booking_date=$todays_date; 		
+
+$fan=filter_var($_SERVER['REMOTE_USER'],FILTER_UNSAFE_RAW, FILTER_NULL_ON_FAILURE);  // Jan 2024		
+$booking_date=$todays_date; 
+		
+try{		
 $stmt = $conn->prepare('SELECT * FROM store_bookings WHERE fan= :fan AND booking_date= :booking_date ORDER BY booking_id DESC');
 $stmt->bindParam('fan', $fan, PDO::PARAM_STR);
 $stmt->bindParam('booking_date', $booking_date, PDO::PARAM_STR);		
-$stmt->execute(); 	
-/////////		
+$stmt->execute();
+}
+catch (Exception $e) {
+echo 'Message: ' .$e->getMessage('An error occured'), "\n";	
+}	
 echo "<h4> Your bookings for ".$todays_date2."</h4><p>";
 		
 
@@ -67,10 +72,8 @@ echo "<th></th>";
 //echo "<td>In store? </td>";
 
 echo "</tr></th></thead>";
-            //echo "<tr bgcolor=#ffffff><td colspan=13></td></tr>\n";
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {	
-//echo "<tr bgcolor=#999999><td colspan=14></td></tr>\n";
-			//$row = pg_fetch_array($result);
+
 $booking_id=$row['booking_id'];
 
 $date_1_exp=explode(".",$row['date_1']);//reverse date 1
@@ -95,12 +98,14 @@ echo "<td> </td>";
 
 $barcode = 	$row['barcode'];
 
- 		
+try{ 		
 $stmt2 = $conn->prepare('SELECT item,cat_id,image FROM store_items  WHERE barcode = :barcode');
 $stmt2->bindParam('barcode', $barcode, PDO::PARAM_INT);	
 $stmt2->execute(); 	
-	
-
+}	
+catch (Exception $e) {
+echo 'Message: ' .$e->getMessage('An error occured'), "\n";	
+}
  while ($row2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {	
 $image=$row2['image'];
 $item=$row2['item'];
@@ -108,12 +113,15 @@ $cat=$row2['cat_id'];
  }
 echo "<td><img src='images/".$image.".jpg'>";	
 
-		
+try{		
 $stmt3 = $conn->prepare('SELECT category FROM store_category  WHERE cat_id = :cat');
 $stmt3->bindParam('cat', $cat, PDO::PARAM_INT);	
 $stmt3->execute(); 	
-	
-  while ($row3 = $stmt3->fetch(PDO::FETCH_ASSOC)) {	
+}
+catch (Exception $e) {
+echo 'Message: ' .$e->getMessage('An error occured'), "\n";	
+}	
+while ($row3 = $stmt3->fetch(PDO::FETCH_ASSOC)) {	
 $category=$row['category'];	 
  }
 echo $category." "."$item"."</td>";
@@ -142,7 +150,6 @@ echo "$value";
 echo"<br>";
 
 }
-//unset($_SESSION["start_date_status"]);
 }
 $_SESSION["start_date_status"]=NULL;
  ?> 

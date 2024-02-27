@@ -30,13 +30,6 @@ include ('pdo.php');
 
 <p>
   <?php
-/*echo "<div class='btn-toolbar' role='toolbar'>";
-echo "<a class='btn btn-primary btn-xs active' href='items.php' role='button'>active items only</a>";
-echo "<a class='btn btn-primary btn-xs' href='items_all.php' role='button'>include retired items</a>";
-//echo "<a href='#menu-toggle' class='btn btn-default btn-xs' id='menu-toggle'>Toggle Menu</a><p>";
-echo "<a class='btn btn-success btn-xs' href='#bottom' role='button'>add item</a>";	
-echo "</div>";
-*/
   
   
    
@@ -156,7 +149,7 @@ echo "<a class='btn btn-success btn-xs' href='#' role='button'>NHS store</a>";
 echo "<a class='btn btn-primary btn-xs' href='browse_items_by_college.php?store_location=s' role='button'>SE store</a>";
 echo "</div><p>";
 
-//$sql="SELECT * FROM store_items  WHERE store_location='n' AND store_status!= 'r' ORDER BY ".$orderby;
+
 $store_location='n';
 $store_status='r';
 $stmt = $conn->prepare('SELECT * FROM store_items WHERE store_location=:store_location AND store_status!= :store_status ORDER BY item');
@@ -208,21 +201,14 @@ $stmt->execute();
 catch (Exception $e) {
 echo 'Message: ' .$e->getMessage('An error occured'), "\n";	
 }	
-//echo $sql;
+
  if($stmt) //was ! pre 8.2
 	{
 echo "<table class = 'table table-hover'>";
-//echo "<th></th>";
-//echo "<thead><tr><th>Category</th>";
-//echo "<th>Items</th>";
-//echo "<th>Barcode</th>";	
-//echo "<th>Description</th>";
-//echo "</tr></thead>";
-//echo "<tr bgcolor=#ffffff><td colspan=13></td></tr>\n";	
-//echo $result;
+
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
-			//$row = pg_fetch_array($result);
+
 $cat=$row['cat_id'];
 $barcode=$row['barcode'];
 $item=$row['item'];	
@@ -233,13 +219,8 @@ $store_status=$row['store_status'];
 
 
 
-//$store_location='n';
-//$store_status='r';
-//$item='item';	
 $stmt2 = $conn->prepare('SELECT * FROM store_category WHERE cat_id= :cat_id');
-//$stmt->bindParam(':store_category', $store_category, PDO::PARAM_STR);
 $stmt2->bindParam(':cat_id', $cat, PDO::PARAM_INT);
-//$stmt->bindParam(':item', $item, PDO::PARAM_STR);	
 $stmt2->execute();	
 	
 
@@ -281,40 +262,37 @@ case 's':
 	$colour="#3349FF";	
    break;		
    }	
-//echo "<td><img src='../images/".$row['image'].".jpg' width='75' height='25'></td>";//new
+
 echo "<td>".$store_style.$row2['category']."</td>";	
 echo "<td>".$store_style.$item."</td>";	
-//echo "<td>".$store_style.$barcode."</td>";
+
 echo "<td><img src='images/".$row['image'].".jpg'></td>";    
 echo "<td>".$store_style.$description."</td>";	
 echo "<td><span style='color:".$colour."';><strong>".$store_location."</strong></span></td>";    
-//echo "<td><a href=modify_item.php?barcode=$barcode>edit</a><td>";
-//echo "<td><a class='btn btn-default btn-xs'  href='edit_item.php?barcode=$barcode' role='button'>edit</a></td>";		
-//print "<td><a href=delete_item.php?barcode=$barcode>delete</a><td>";
+
 $barcode=$row['barcode'];
 $n=date ('m');
 $Y=date ('Y');
 if ($row['store_status']=='u')
 {
-//echo "<td class='style1'>unavailable</td>";
+
 echo "<td><a class='btn btn-danger btn-xs'  href='#' role='button'>unavailable</a></td>";
 }else{
-//echo  "<td><a href=bookings.php?barcode=$barcode&n=$n&Y=$Y>bookings</a></td>";
+
 echo "<td><a class='btn btn-success btn-xs'  href='bookings.php?barcode=$barcode&n=$n&Y=$Y' role='button'>bookings</a></td>";
 }    
 echo "<tr>";
        }
-//echo "<tr><td colspan='5' class='success'></td>";	 
+ 
 echo "</table>\n";	
 
 }
 		
-//$result = pg_query($dbcon, $sql);
-//pg_close;
-//if (!$stmt) { //was $!result-is this working?
- // echo "An error occured.\n";
-  //exit;
-  //}
+
+if (!$stmt) { 
+  echo "An error occured.\n";
+  exit;
+  }
   
 
   

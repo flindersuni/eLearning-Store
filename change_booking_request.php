@@ -30,8 +30,9 @@ include('pdo.php');
 $todays_date=date('Y').".".date('m').".".date('d');
 include('pdo.php');
 
-$fan_id=$_SERVER["REMOTE_USER"];	
-//$fan_id=filter_input(INPUT_SERVER, "REMOTE_USER");	// new Dec 2023		 	 
+//$fan_id=$_SERVER["REMOTE_USER"];	
+//$fan_id=filter_input(INPUT_SERVER, "REMOTE_USER");	// new Dec 2023
+$fan_id=filter_var($_SERVER['REMOTE_USER'],FILTER_UNSAFE_RAW, FILTER_NULL_ON_FAILURE);  // Jan 2024	 
 $stmt4 = $conn->prepare('SELECT * FROM store_staff WHERE fan_id= :fan_id');   
 $stmt4->bindParam(':fan_id', $fan_id, PDO::PARAM_STR);	
 $stmt4->execute();	 
@@ -56,8 +57,8 @@ $search=filter_input(INPUT_POST, 'search');
 
 }
 
-$fan=$_SERVER["REMOTE_USER"];  	
-
+//$fan=$_SERVER["REMOTE_USER"];  	
+$fan=filter_var($_SERVER['REMOTE_USER'],FILTER_UNSAFE_RAW, FILTER_NULL_ON_FAILURE);  // Jan 2024	 
 	 try {	 
 $stmt = $conn->prepare('SELECT * FROM store_bookings WHERE fan= :fan AND date_1>= :todays_date  ORDER BY booking_id DESC');
 $stmt->bindParam(':fan', $fan, PDO::PARAM_STR);

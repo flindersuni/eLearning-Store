@@ -9,12 +9,12 @@ $_SERVER["REMOTE_USER"]=$attributes['fan'][0];
 
 
  //error_reporting(E_ALL); 
-$real_fan=$_SERVER["REMOTE_USER"];                                                                                  // was$_SERVER['REMOTE_USER'];
+$real_fan=$_SERVER["REMOTE_USER"];                                                                                  
 include('pdo.php');
-//include('login.php');
 
-$fan=$_SERVER["REMOTE_USER"]; //'fili0008'
-//$fan=filter_input(INPUT_SERVER, 'REMOTE_USER');	// new Dec 2023	
+
+
+$fan=filter_var($_SERVER['REMOTE_USER'],FILTER_UNSAFE_RAW, FILTER_NULL_ON_FAILURE);  // Jan 2024
 $stmt3 = $conn->prepare('SELECT * FROM store_admin_staff  WHERE fan =:fan');
 $stmt3->bindParam(':fan', $fan, PDO::PARAM_STR);	
 $stmt3->execute();
@@ -27,10 +27,10 @@ $fan=$row3['fan'];
 
 
 
-if ($_SERVER["REMOTE_USER"]==$fan) { //was  if ('fili0008'==$fan) { pre PHP 8.2
+if ($_SERVER["REMOTE_USER"]==$fan) { 
 $admin='1';
 }
-/////////// works to here
+
 if ($stmt3) {
 
 
@@ -44,10 +44,8 @@ if ($_SERVER["REMOTE_USER"]==NULL) {
 
 $_SERVER["REMOTE_USER"]=$real_fan;
 }
-//include('admin/database_connect.php');
 
-$fan_id=$_SERVER["REMOTE_USER"];	//was $_SERVER["REMOTE_USER"]
-//$fan_id=filter_input(INPUT_SERVER, 'REMOTE_USER');	// new Dec 2023	
+$fan_id=filter_var($_SERVER['REMOTE_USER'],FILTER_UNSAFE_RAW, FILTER_NULL_ON_FAILURE);  // Jan 2024
 $blacklist='1';	//was $_SERVER["REMOTE_USER"]
 $stmt = $conn->prepare('SELECT * FROM store_staff  WHERE fan_id =:fan_id AND blacklist= :blacklist');
 $stmt->bindParam(':fan_id', $fan_id, PDO::PARAM_STR);
