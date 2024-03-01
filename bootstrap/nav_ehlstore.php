@@ -3,7 +3,7 @@
           <div class="navbar-header">
 
  <?php
-     if ($admin==1){
+     if ($admin==1){ //checks if user is in store_admin_staff table 
 	 $a="index.php"; 	 
 	 $rhs="<a href="."help_admin.php".">Admin help</a>";
 	  }else{

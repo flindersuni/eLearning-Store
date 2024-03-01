@@ -2,8 +2,7 @@
 include('../bootstrap/boot1_ehlstore.html');
 
 	require('staff_admin_check.php'); 
-	//include('database_connect.php'); 
-    //include('ldap_connect2.php');	
+
 ?>
 <title>eLearning store</title>
 </head>

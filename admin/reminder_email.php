@@ -12,13 +12,7 @@ $stmt6->execute();
 while ($row6 = $stmt6->fetch(PDO::FETCH_ASSOC)) {		
 $store_location=$row6['store_location'];
                                        }
-///
-//$sql7="SELECT * FROM store_images  WHERE barcode = '".$_GET['barcode']."'";
-//	$result7 = pg_query($sql7);
-//	$nrows7 = pg_numrows($result7);	
-//	$row7 = pg_fetch_array($result7);
-///
-///// new bit for colleges 7-11-19
+
 switch ($store_location) {
 case 'b':  
 	$store_name  = "BGL";
@@ -49,10 +43,10 @@ case 's':
 	$store_location  = "Engineering Rm 4.63";	
    break;		
    }
-//// 
+
 
 $email=filter_input(INPUT_GET, 'fan')."@flinders.edu.au";
-//$name=$row['first_name']." ".$row['last_name'];
+
 // Send HTML email to TAPS
 
 $to = $email;
@@ -79,9 +73,7 @@ $body .= "</ul>\n";
 $headers = "MIME-Version: 1.0\r\n";
 $headers .= "Content-type: text/html; charset=iso-8859-1\r\n";
 $headers .= 'From:   ' . "donotreply@flinders.edu.au \r\n";
-//$headers .= 'Reply-To: ' . "".$_POST['email']." . \r\n" ;
-//echo $to;
-//echo $body;
+
 mail($to, $subject, $body, $headers);
 
 
@@ -124,17 +116,14 @@ $stmt->execute();
 
 	{
 
-
+echo "An error occured.\n";
+ exit;
 
 }
 		
 	  }
 	
-	
 
-
-echo "Reminder email has been sent to ".$name."<p>";
-// change this to redirect back to report_late_all.php
 $return='report_late_all.php';
 
 header('Location: '. $return, false);

@@ -2,9 +2,8 @@
 include('../bootstrap/boot1_ehlstore.html');
 
 require('staff_admin_check.php'); 
-//include('database_connect2.php'); //PHP 8.2 temp
 include('pdo.php');
-    //include('ldap_connect2.php');	
+
 	function rand_string( $length ) {
 $chars = "0123456789";
 return substr(str_shuffle($chars),0,$length);
@@ -48,15 +47,12 @@ echo "<a class='btn btn-primary btn-xs active' href='items_all.php' role='button
 echo "<a href='#menu-toggle' class='btn btn-default btn-xs' id='menu-toggle'>Toggle Menu</a><p>";
 echo "</div>";
   
-//$orderby="item";   
 
-//$sql="SELECT * FROM store_items ORDER BY ".$orderby;	
-//$result = $conn->query($sql);  //new sql;
 $item = 'item';	
 	
 $stmt = $conn->prepare('SELECT * FROM store_items ORDER by item');
 $stmt->execute();	
-//$result = $conn->query('SELECT * FROM store_items ORDER BY item');		
+		
 	
 
  if($stmt)
@@ -73,7 +69,6 @@ echo "</tr></thead>";
 
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {	
 
-//$row = pg_fetch_array($result);
 $cat=$row['cat_id'];
 $barcode=$row['barcode'];
 $item=$row['item'];		
@@ -83,7 +78,7 @@ $store_status=$row['store_status'];
 $status_comment=$row['status_comment'];
 $store_location=$row['store_location'];	
 
-	//////////	
+	
 if ($store_status == '1')
 {$stat_col='#5cb85c';
   $glyph='stop';
@@ -101,11 +96,7 @@ $stat_col='#d9534f';
 $glyph='stop';
 }
 	
-////////
 
-//$sql2="SELECT * FROM store_category  WHERE cat_id= '$cat'";
-//echo $sql2;
-//$result2 = $conn->query($sql2);  //new sql;
 $stmt2 = $conn->query("SELECT category FROM store_category  WHERE cat_id= ".$cat);	
 while ($row2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
 $category=$row2['category'];	
@@ -128,7 +119,7 @@ case 'b':
 	$colour="#FF8A33";	
    break; 
 case 'c':  
-	$store_location  = "CILT";
+	$store_location  = "Central";
 	$colour="#d9534f";	
    break;
 case 'e':  
@@ -159,16 +150,14 @@ echo "<td><a class='btn btn-default btn-xs'  href='#' role='button'>in store?</a
 echo "<td><a class='btn btn-danger btn-xs'  href='toggle_item_unavailability.php?barcode=".$barcode."' role='button'>unavailable</a></td>";
 echo "<td><a class='btn btn-black btn-xs'  href='toggle_item_retirement.php?barcode=".$barcode."' role='button'>retired</a></td>";
 echo "<td>".$status_comment."<td>";	
-echo "<td><a class='btn btn-default btn-xs'  href='edit_item.php?barcode=$barcode' role='button'>edit</a></td>";		
-//print "<td><a href=delete_item.php?barcode=$barcode>delete</a><td>";		
+echo "<td><a class='btn btn-default btn-xs'  href='edit_item.php?barcode=$barcode' role='button'>edit</a></td>";			
 echo "<tr>";
        }
 echo "</table>\n";	
 
 }
 		
-//$result = pg_query($dbcon, $sql);
-//pg_close;
+
 if (!$stmt) {
   echo "An error occured.\n";
   exit;
@@ -203,7 +192,7 @@ if (!$stmt) {
           <label>
           <select name="store_location" id="store_location">
             <option value="e" selected>---pick---</option>
-			<option value="c">CILT</option>
+			<option value="c">Central</option>
             <option value="e">Education</option>
             <option value="h">Humanities</option>
 			<option value="n">NHS</option>

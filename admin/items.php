@@ -4,8 +4,7 @@
 include('../bootstrap/boot1_ehlstore.html');
 
 	require('staff_admin_check.php'); 
-	include('pdo.php'); 
-    //include('ldap_connect2.php');		
+	include('pdo.php'); 	
 	function rand_string( $length ) {
 $chars = "0123456789";
 return substr(str_shuffle($chars),0,$length);
@@ -39,7 +38,6 @@ return substr(str_shuffle($chars),0,$length);
 echo "<div class='btn-toolbar' role='toolbar'>";
 echo "<a class='btn btn-primary btn-xs active' href='items.php' role='button'>active items only</a>";
 echo "<a class='btn btn-primary btn-xs' href='items_all.php' role='button'>include retired items</a>";
-//echo "<a href='#menu-toggle' class='btn btn-default btn-xs' id='menu-toggle'>Toggle Menu</a><p>";
 echo "<a class='btn btn-success btn-xs' href='#bottom' role='button'>add item</a>";	
 echo "</div>";
 
@@ -53,29 +51,12 @@ $stmt->execute();
 
 
 	
-	
-	
-//$stmt = $conn->query("SELECT * FROM store_items WHERE store_status!= 'r' ORDER BY item");
-//$stmt = $dbh->prepare ("SELECT * FROM store_items WHERE store_status!= ? ORDER BY item");
-//$stmt->bindParam(':store_status', $row['store_status']);
-//$stmt->bindParam(':item', $row['item']);	
-//$stmt->execute([$_GET['store_status']]);
- 
-  //print "Name: <p>{$row[0] $row[1]}</p>";
-///////////////////////
+if ($stmt) {
 
-//$name = 'one';
-//$store_status = 'r';
-//$stmt->execute();
-	
-if (!$stmt) {
-  //print "<p>Could not retrieve employee list: " . $conn->errorMsg(). "</p>";
 
-}
 	
 	
 echo "<table class = 'table table-hover'>";
-//echo "<th></th>";
 echo "<thead><tr><th>Category</th>";
 echo "<th>Items</th>";
 echo "<th>Barcode</th>";	
@@ -96,16 +77,6 @@ echo "<th>";
 <!-- end modal  -->
 <?php	 
 echo "In?</th></tr></thead>";
-//echo "<tr bgcolor=#ffffff><td colspan=13></td></tr>\n";		
- 
- 
-	
-//$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);	
-	//foreach ($params as $key => &$val) {
-		
-    //$stmt->bindParam($key, $val);	
-
-//while ($row = $result->fetch()) {
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {	
 $cat=$row['cat_id'];
 $barcode=$row['barcode'];
@@ -113,15 +84,9 @@ $item=$row['item'];
 $description=$row['description'];
 $store_status=$row['store_status'];
 
-//////////
-//$cat_id=$row3['cat_id'];
-//$store_status=$row3['store_status'];
-//exit;
-//$item=$row3['item'];
-//$barcode=$row3['barcode'];
 $status_comment=$row['status_comment'];
 $store_location=$row['store_location'];	
-//////////	
+	
 if ($store_status == 1)
 {$stat_col='#5cb85c';
   $glyph='stop';
@@ -139,9 +104,7 @@ $stat_col='#d9534f';
 $glyph='stop';
 }
 	
-//$sql2="SELECT category FROM store_category  WHERE cat_id= '$cat'";
-//$result2 = $conn->query($sql2);  //new sql
-//$result2 = $conn->query('SELECT category FROM store_category  WHERE cat_id= "'.$cat.'"');
+
 $stmt2 = $conn->query("SELECT category FROM store_category  WHERE cat_id= ".$cat);	
 while ($row2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
 $category=$row2['category'];	
@@ -155,7 +118,6 @@ $store_style='<span class=style3>';
 $store_style=NULL;	
 }
 
-//echo "<td><img src='../images/".$row['image'].".jpg' width='75' height='25'></td>";//new
 echo "<td>".$store_style.$category."</td>";				
 echo "<td>".$store_style.$item."</td>";	
 echo "<td>".$store_style.$barcode."</td>";
@@ -204,9 +166,12 @@ echo "<tr>";
  
 echo "</table>\n";	
 
+}
 
-
-
+if (!$stmt) {
+  echo "An error occured.\n";
+  exit;
+  }
   
 
   
@@ -229,7 +194,7 @@ echo "</table>\n";
       <td align="right"><div align="left">item no.
           <input name="item" type="text" id="item" size="35"> 
           image
-          <?php include('browse_images.php'); ?>
+          <?php //include('browse_images.php'); ?>
 </div></td>
     </tr>
     

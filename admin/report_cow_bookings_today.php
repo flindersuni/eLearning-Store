@@ -35,17 +35,16 @@ echo "<a class='btn btn-primary btn-xs' href='report_returns_today.php' role='bu
 echo "<a class='btn btn-primary btn-xs' href='report_late_all.php' role='button'>Late</a>";
 echo "<a class='btn btn-primary btn-xs' href='report_whats_out.php' role='button'>What's out?</a>";
 echo "<a class='btn btn-success btn-xs active' href='report_cow_bookings_today.php' role='button'>COWs etc</a>";
-//echo "<a href='#menu-toggle' class='btn btn-default btn-xs' id='menu-toggle'>Toggle Menu</a><p>";
 echo "</div>";
 
 
-//$date_string=$_GET['date_string'];
+
 $date_string=filter_input(INPUT_GET, 'date_string'); /// new Nov 2023	 
-//$date=date("Y.m.d", $date_string);
+
 if ($date_string==NULL) {
 $date_string =mktime(0, 0, 0);
 
-//$date=date(Y).".".date(n).".".date(d);
+
 }
 $date=date("Y.m.d", $date_string);	 
 $date_exp=explode(".",$date);//reverse date 
@@ -58,24 +57,11 @@ $e_date2=$date_exp2[2]." ".$date_exp2[1]." ".$date_exp2[0];//
 
 echo "<h4>Bookings/returns for ".date("l", $date_string)." ".$e_date2."</h4>";
 echo "<br>";
-//echo  "<span style='color:#5cb85c;'>&#9632</span> = in store <span class='style4'>|</span> <span style='color:#d9534f'>&#9632</span> = out ";
-//echo "<div class='btn-toolbar' role='toolbar'>";
-//echo "<a class='btn btn-success btn-xs  href='#' role='button'>In</a>";
-//echo "<a class='btn btn-danger btn-xs' href='#' role='button'>Out</a>";
-//echo "</div>";
-//echo  "<span class='style11'>&#9632;</span>";
-//echo "<br>";
-//$date_today_string=strtotime("$date");
+
 
 $tomorrow_string=($date_string)+86400;
 $yesterday_string=($date_string)-86400;
-//echo "<div style='display: inline;'>";
-//echo "<form style='display: inline;' name='prev' method='post' action='report_bookings_today2_do.php?date_string=".$yesterday_string."'>";
-//echo "<button type='submit' name='date_string' value='$yesterday_string'>< prev day</button>";
-//echo "</form>";
-//echo "<form style='display: inline;' name='next' method='post' action='report_bookings_today2_do.php?date_string=".$tomorrow_string."'>";
-//echo  "<button type='submit' name='date_string' value='$tomorrow_string'>< next day ></button>";
-//echo "</form>";
+
 
 
 echo "<a class='btn btn-default btn-xs' href='report_cow_bookings_today2_do.php?date_string=".$yesterday_string."' role='button'>Prev day</a>";
@@ -90,11 +76,9 @@ echo  "<input type='submit' name='lookup date' value='lookup date'>";
 echo "</form>";
 
 echo "<br>";
-//echo "include bulk computers (COWS etc)";
-//echo "<br>";
+
 echo "<div>";
-//$sql="SELECT * FROM store_bookings  WHERE (date_1 = '$date' OR date_2 = '$date') AND (barcode = '046602' OR barcode = '046616' OR barcode = '91278' OR barcode = '00955') ORDER BY booking_id";
-//echo $sql;
+
 $date_1=$date;
 $date_2=$date;	 
 $stmt = $conn->prepare('SELECT * FROM store_bookings  WHERE (date_1 = :date_1  OR date_2 = :date_2) AND (barcode = 046602 OR barcode = 046616 OR barcode = 046617 OR barcode = 046618 OR barcode = 00956 OR barcode = 00954 OR barcode = 00955) ORDER BY booking_id');
@@ -102,7 +86,7 @@ $stmt->bindParam(':date_1', $date_1, PDO::PARAM_STR);
 $stmt->bindParam(':date_2', $date_2, PDO::PARAM_STR);	 
 $stmt->execute();
 
-//$result = $conn->query($sql);  //new sql
+
 
 		 $row_count = $stmt->rowCount();
 		 if(!$row_count)  
@@ -125,8 +109,7 @@ echo "<th>Item no.</th>";
 echo "<th></th>";
 echo "<th>Early pickup</th>";
 echo "<th>Late dropoff</th>";
-//echo "<td>Pwrbrd </td>";
-//echo "<td>Setup </td>";
+
 echo "<th>Room</th>";
 echo "<th>Comments</th>";
 echo "<th>Store</th>";
@@ -137,21 +120,20 @@ echo "</tr></thead>";
 
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {	
 
-			//$row = pg_fetch_array($result);
 
 $date_1_exp=explode(".",$row['date_1']);//reverse date 1
 $e_date_1=$date_1_exp[2].".".$date_1_exp[1].".".$date_1_exp[0];//
 echo "<tr>";
 echo "<td> ".$e_date_1." </td>";//show reversed date 1
-//print "<td align='center'> ".$row['date_1']." </td>";	
+
 
 $date_2_exp=explode(".",$row['date_2']);//reverse date 2
 $e_date_2=$date_2_exp[2].".".$date_2_exp[1].".".$date_2_exp[0];//
 echo "<td> ".$e_date_2." </td>";//show reversed date 2
-//print "<td align='center'> ".$row['date_2']."</td>";
+
 
 echo "<td> ".$row['time_1']."</td>";
-//print "<td align='center'> ".$row['time_2']."</td>";
+
 if ($row['time_2']!=NULL)
 {
 $return_time=$row['time_2']+1;
@@ -170,19 +152,11 @@ $comments=$row['comments'];
 $picked_up=$row['p_up'];
 $returned=$row['ret'];
 $booking_id=$row['booking_id'];
-//print $row['fan'];
-//exit;
-//print "<td align='center'> ".$row['fan']."</td>";	
-//print "<td align='center'> ".$row['booking_id']."</td>";
-
-//$sql2="SELECT first_name,last_name FROM store_staff  WHERE fan_id ='$fan_d'";
-//echo $sql2;
-//$fan_id=$fan_d;	
+	
 $stmt2 = $conn->prepare('SELECT first_name,last_name FROM store_staff  WHERE fan_id =:fan_d');
 $stmt2->bindParam(':fan_d', $fan_d, PDO::PARAM_STR);	
 $stmt2->execute();
-//exit;
-//$result2 = $conn->query($sql2);  //new sql
+
 while ($row2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
 	
 $first_name=$row2['first_name'];
@@ -191,28 +165,22 @@ $last_name=$row2['last_name'];
 }
 echo "<td> ".$first_name." ".$last_name."</td>";
 	
-//$sql3="SELECT item,store_status,cat_id,store_location,image FROM store_items  WHERE barcode = '$barcode'";
-//echo $sql3;
-/////////////////////////		
+		
 $stmt3 = $conn->prepare('SELECT item,store_status,cat_id,store_location,image FROM store_items  WHERE barcode = :barcode');
 $stmt3->bindParam(':barcode', $barcode, PDO::PARAM_STR);	
 $stmt3->execute();
-////////////////////////
-//$result3 = $conn->query($sql3);  //new sql
+
 while ($row3 = $stmt3->fetch(PDO::FETCH_ASSOC)) {
 	
 	
 	
 $cat_id=$row3['cat_id'];
-//echo $cat_id;
-//exit;
+
 $item=$row3['item'];
 $image=$row3['image'];
 $store_location=$row3['store_location'];
 $store_status=$row3['store_status'];	
-//print "<td align='center'> ".$row['item']."</td>";
-//echo $row['store_status'];
-//exit;
+
 }
 switch ($picked_up) {
 case '0':
@@ -244,12 +212,11 @@ break;
 }
 
 
-//$sql4="SELECT category FROM store_category  WHERE cat_id = '$cat_id'";
-//echo $sql4;
+
 $stmt4 = $conn->prepare('SELECT category FROM store_category  WHERE cat_id = :cat_id');
 $stmt4->bindParam(':cat_id', $cat_id, PDO::PARAM_INT);	
 $stmt4->execute();
-//$result4 = $conn->query($sql4);  //new sql
+
 	
 while ($row4 = $stmt4->fetch(PDO::FETCH_ASSOC)) {
 $category=$row4['category'];	
@@ -265,7 +232,6 @@ switch ($internet) {
    break;
     default:  
 	$start=NULL;
-	//$style2  = style1;
    break;
    }
 switch ($ext_cord) {
@@ -275,13 +241,10 @@ switch ($ext_cord) {
    break;
  default:  
 	$end=NULL;
-	//$style2  = style1;
    break;
    }
 echo "<td class='$style2' > ".$start."</td>";
 echo "<td class='$style3' > ".$end."</td>";
-//echo "<td align='center'> ".$powerboard."</td>";
-//echo "<td align='center'> ".$setup."</td>";
 echo "<td> ".$setup_location."</td>";
 echo "<td> ".$comments."</td>";
 switch ($store_location) {
@@ -296,9 +259,8 @@ echo "<td align='center' class='$style'> ".$store_location."</td>";
 echo "<td align='center'>$status</td>";
 echo "<td align='center'>$status2</td>";
 echo "<td span style='$stat_col'>&#9632;</span></td>";
-//echo "<td><a href=toggle_pickup_status.php?barcode=".$barcode."&booking_id=".$booking_id."&date_string=".$date_string.">Picked up</a><td>";
 echo "<td><a class='btn btn-default btn-xs' href='toggle_pickup_status_cows.php?barcode=".$barcode."&booking_id=".$booking_id."&date_string=".$date_string."' role='button'>Picked up</a><a class='btn btn-default btn-xs' href='toggle_return_status_cows.php?barcode=".$barcode."&booking_id=".$booking_id."&date_string=".$date_string."' role='button'>Returned</a></td>";		
-//$fan_d = $row['fan'];
+
 
 echo "</tr>";
        }
@@ -307,7 +269,7 @@ echo "</tr>";
 
 		
 
-//pg_close;
+
 if (!$stmt) {
   echo "An error occured.\n";
   exit;

@@ -4,9 +4,8 @@
 include('../bootstrap/boot1_ehlstore.html');
 
 	require('staff_admin_check.php'); 
-	//include('database_connect2.php');
     include('pdo.php');
-    //include('ldap_connect2.php');	
+
 ?>
 <title>eLearning store bookings</title>
 </head>
@@ -33,13 +32,7 @@ include('../bootstrap/boot1_ehlstore.html');
    Before retiring a category make sure all items in it are retired first</p>	 
 <p>
   <?php 
-  //echo $info[0];
-  //echo  $info[0]["cn"][0];
-//$orderby="category";
-//$sql="SELECT * FROM store_category WHERE visibility !='r' ORDER BY ".$orderby;
-//$result = $conn->query($sql);  //new sql
-//$result = $conn->query('SELECT * FROM store_category WHERE visibility !="r" ORDER BY category');
-/////////////////////////////
+
 $visibility = 'r';
 $category = 'category';	
 	
@@ -48,8 +41,8 @@ $stmt->bindParam(':visibility', $visibility, PDO::PARAM_STR);
 $stmt->bindParam(':category', $category, PDO::PARAM_STR);
 $stmt->execute();	
 	
-////////////////////////////	
- if(!$result)
+	
+ if($stmt)
 	{
 echo "<table class = 'table table-hover'>";
 echo "<thead><th>Current categories</th>";
@@ -58,7 +51,6 @@ echo "</thead>";
 
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {	
 
-			//$row = pg_fetch_array($result);
 			
 switch ($row['visibility']){
 case '1':
@@ -74,21 +66,18 @@ break;
 echo "<tr class=".$row_colour.">";
 echo "<td span class=$style>".$row['category']."</span></td>";	
 echo "<td>".$row['description']."</td>";	
-//echo "<td><a href=modify_category.php?cat_id=".$row['cat_id'].">edit</a><td>";
 echo "<td><a class='btn btn-default btn-xs'  href='edit_category.php?cat_id=".$row['cat_id']."' role='button'>edit</a></td>";	
-//echo "<td><a href=delete_category.php?cat_id=".$row['cat_id'].">delete</a><td>";
 echo "<td><a class='btn btn-danger btn-xs'  href='delete_category.php?cat_id=".$row['cat_id']."' role='button'>delete</a></td>";
 echo "<td><a class='btn btn-black btn-xs'  href='retire_category.php?cat_id=".$row['cat_id']."' role='button'>retire</a></td>";	
 echo "<tr>";
        }
 	echo "</table>\n";	
 
-}
+}else{
 		
-//$result = pg_query($dbcon, $sql);
-//pg_close;
-
-  
+echo "An error occured";
+exit;	 
+	}
   
   
 	?>
