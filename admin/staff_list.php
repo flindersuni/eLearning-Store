@@ -31,16 +31,11 @@ require('staff_admin_check.php');
   <?php
 
 
-
-//$orderby="fan_id";
-
-
-//include('database_connect.php');
 $active='1';	
 $stmt = $conn->prepare('SELECT * FROM store_staff WHERE active = :active ORDER BY fan_id');
 $stmt->bindParam(':active', $active, PDO::PARAM_STR);		
 $stmt->execute();	
-//$result = $conn->query($sql);  //new sql
+
 
  if($stmt)
 	{
@@ -57,7 +52,7 @@ $count=0;
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) { 
 
 
-//$blacklist_status=$row['blacklist'];			
+			
 
 if ($row['blacklist']=='1') {
 $row_status='active';
@@ -72,18 +67,15 @@ echo "<td>".$text_status."".$row['last_name']."</td>";
 echo "<td>".$text_status."".$row['phone']."</td>";
 echo "<td>".$text_status."".$row['room']."</td>";
 echo "<td>".$text_status."".$row['email']."</td>";
-//echo "<td><a class='btn btn-danger btn-xs'  href='delete_edu_staff.php?id=". $row['id'] ."' role='button'>delete</a></td>";
+
 echo "<td><a class='btn btn-black btn-xs'  href='toggle_blacklist.php?fan_id=".$row['fan_id']."' role='button'>blacklist</a></td>";
 echo "</tr>";
 $count++;	
        }
 echo "</table>";
 
-//echo "<p><strong>".$nrows_e." Education staff</strong>";
 echo "<p><strong>".$count." staff</strong>";	 
-//}
-		
-//$result = pg_query($dbcon, $sql);
+
 
 if (!$stmt) {
   echo "An error occured.\n";

@@ -16,7 +16,7 @@
 				 </li>
               </div>
     <?php
-     if ($admin==1){
+     if ($admin==1){ //checks if user is in store_admin_staff table
      ?>        
              <li><a href="#" data-toggle="collapse" data-target="#search">ADMIN BOOKINGS</a></li>          
               <div id="search" class="collapse in">

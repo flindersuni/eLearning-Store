@@ -1,8 +1,9 @@
+
+
 <?php 
 include('../bootstrap/boot1_ehlstore.html');
 
 require('staff_admin_check.php'); 
-
 include('pdo.php');	
 ?>
 <title>Admin staff</title>
@@ -31,34 +32,33 @@ include('pdo.php');
 <?php
 echo 'Current PHP version: ' . phpversion();
 echo "<p>";
-echo "Store version: 3.8 (6-07-23)";
+echo "Store version: 4.0 (8-02-24)";
 echo "<p>";
-//if ($_SERVER["REMOTE_USER"]==fili0008 | $_SERVER["REMOTE_USER"]==lang0133) {                                   // hidden while testing on local server
-if ($_fan==fili0008 ) {  	
+	 
+$admin_fan=filter_var($_SERVER['REMOTE_USER'],FILTER_UNSAFE_RAW, FILTER_NULL_ON_FAILURE);  // Jan 2024	
+ 	
 echo "The following staff members have access to the 'admin only' section of the eLearning store:<p>";
 echo "<p>";
-//echo "<a href=add.php?fan=".$row['fan'].">add new staff member</a><p>";
+
 echo "<a class='btn btn-success btn-xs'  href='add_admin.php?fan=".$row['fan']."' role='button'>add new admin staff member</a>";
 
-//new bit
-if ($_GET['search']) {
-$search=$_GET['search'];
 
-$orderby=$_GET['order'];
+if	(filter_input(INPUT_GET, 'search')) {
+$search=filter_input(INPUT_GET, 'search'); 	
+
+$orderby=filter_input(INPUT_GET, 'order'); 		
 }
 else {
-$search = $_POST['search'];
+
+$search=filter_input(INPUT_POST, 'search'); 	
 $orderby="fan";
 
 }
-//$sql="SELECT * FROM store_admin_staff ORDER BY ".$orderby;
-//$result = $conn->query($sql);  //new sql
-$fan='fili0008';	
+	
 $stmt = $conn->prepare('SELECT * FROM store_admin_staff ORDER BY :fan');
-$stmt->bindParam(':fan', $fan, PDO::PARAM_STR);	
+$stmt->bindParam(':fan', $admin_fan, PDO::PARAM_STR);	
 $stmt->execute();
- //if($result)
-	//{
+
 
 echo "<table class = 'table table-hover'>";
 echo "<thead><tr><th><a href=admin_staff_list.php?search=fan&order=fan>FAN</a></th>";
@@ -66,43 +66,41 @@ echo "<th><a href=admin_staff_list.php?search=fan&order=first_name>First name</a
 echo "<th><a href=admin_staff_list.php?search=fan&order=last_name>Last name</a></th>";
 echo "<th><a href=admin_staff_list.php?search=fan&order=college>College</a></th>";
 echo "<th><a href=admin_staff_list.php?search=fan&order=role>Role</a></th>";
-echo "<th><a href=admin_staff_list.php?search=fan&order=last_name>Workdays</a></th>";	 
 echo "</tr></thead>";
-            //echo "<tr bgcolor=#ffffff><td colspan=13></td></tr>\n";
+            
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) { 
-//echo "<tr bgcolor=#999999><td colspan=14></td></tr>\n";
-			//$row = pg_fetch_array($result);
+
 echo "<td>".$row['fan']."</td>";
 echo "<td>".$row['first_name']."</td>";
 echo "<td>".$row['last_name']."</td>";
 switch ($row['college']) {
 case 'b':  
 	$store_location  = "BGL";
-	//$colour="#FF8A33";	
+	$colour="#FF8A33";	
    break; 
 case 'e':  
 	$store_location  = "EPSW";
-	//$colour="#555555";	
+	$colour="#555555";	
    break;
 case 'h':  
 	$store_location  = "HASS";
-	//$colour="#CA33FF";
+	$colour="#CA33FF";
    break;		
  case 'm':  
 	$store_location  = "MPH";
-	//$colour="#356534";
+	$colour="#356534";
    break;
  case 'n':  
 	$store_location  = "NHS";
-	//$colour="#66BB66";
+	$colour="#66BB66";
    break;
 case 's':  
 	$store_location  = "SE";
-	//$colour="#3349FF";	
+	$colour="#3349FF";	
    break;
 case 'z':  
-	$store_location  = "CILT";
-	//$colour="#d9534f";	
+	$store_location  = "Central";
+	$colour="#d9534f";	
    break;		
    }
 	
@@ -123,10 +121,7 @@ default:
    }
 echo "<td>".$role."</td>";
 
-//echo "<td><span style='color:".$colour1."';>".$m."</span> <span style='color:".$colour2."';>".$t." </span><span style='color:".$colour3."';>".$w." </span><span style='color:".$colour4."';>".$th." </span><span style='color:".$colour5."';>".$f."</span></td>";
 
-//echo "<td><a href=modify.php?fan=".$row['fan'].">edit</a><td>";
-//echo "<td><a href=delete_admin.php?fan=".$row['fan'].">delete</a><td>";
 echo "<td><a class='btn btn-danger btn-xs'  href='delete_admin.php?fan=".$row['fan']."' role='button'>delete</a></td>";
 
 echo "</tr>";
@@ -134,7 +129,7 @@ echo "</tr>";
 
 		echo "</table>\n";
 
-//}
+
 echo "Version 4.0 (coming): PHP 8.2 and SQL injection protection<br>
       Version 3.7: Changed from PostGres to SQL<br>
 	  Version 3.6: Changed from LDAP to active directory<br>
@@ -145,9 +140,7 @@ if (!$stmt) {
   echo "An error occured.\n";
   exit;
 }
-}else {
-echo "Sorry, you don't have access rights to this page"; 
-        } //end if
+
 
  ?>     
 <!--  body ends GF -->

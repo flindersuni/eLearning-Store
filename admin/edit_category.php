@@ -41,7 +41,8 @@ $stmt->execute();
 	 
  if(!$stmt)
 	{
-
+echo "An error occured.\n";
+exit;
  }
 
 
