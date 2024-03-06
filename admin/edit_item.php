@@ -3,9 +3,8 @@
 <?php 
 include('../bootstrap/boot1_ehlstore.html');
 
-	require('staff_admin_check.php'); 
-	//include('database_connect.php'); 
-    //include('ldap_connect2.php');	
+require('staff_admin_check.php'); 
+include('pdo.php');	
 ?>
 <title>eLearning store bookings</title>
 </head>
@@ -30,9 +29,11 @@ include('../bootstrap/boot1_ehlstore.html');
 <?php
 echo "<h4>Modify this item</h4>";
 
-$sql="SELECT * FROM store_items WHERE barcode = '".$_GET['barcode']."'";
-$result = $conn->query($sql);  //new sql
-while($row = $result->fetch_assoc()) {
+$barcode=filter_input(INPUT_GET, 'barcode');	 
+$stmt = $conn->prepare('SELECT * FROM store_items WHERE barcode =:barcode');
+$stmt->bindParam(':barcode', $barcode, PDO::PARAM_STR);
+$stmt->execute();		 
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {	
 
 $item=$row['item'];	
 $image=$row['image'];
@@ -43,11 +44,10 @@ $cat_id=$row['cat_id'];
 		
 }
 	
- if($result)
+ if($stmt)
 	{
 
 		{
-//$row = pg_fetch_array($result);
 
 
 
@@ -100,14 +100,11 @@ echo "</table>";
 				
 	}
 	
-
-//$result = pg_query($dbcon, $sql);
-if (!$result) {
+if (!$stmt) {
   echo "An error occured.\n";
   exit;
 }
 
-pg_close;
  ?>
 
 <!--  body ends GF -->
