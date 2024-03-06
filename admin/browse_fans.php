@@ -1,28 +1,14 @@
 <select name="fan" id="fan">
   <option> </option>
   <?php
-include('database_connect2.php'); 
-//drop down list of categories
-//$sql_dropdown="SELECT * FROM store_staff  WHERE active='1' ORDER BY fan_id";
-	
-/////////
+include('pdo.php'); 
+
 $active='1';
 $fan_id=$_SERVER["REMOTE_USER"];
 $stmt = $conn->prepare('SELECT * FROM store_staff WHERE active= :active ORDER BY fan_id');
 $stmt->bindParam(':active', $active, PDO::PARAM_INT);	
 $stmt->execute(); 	
-/////////	
-//while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
-//$booking_id=$row['booking_id'];
-
-//}
-////////////////	
-	
-	
-	
-	
-//$result_dropdown = $conn->query($sql_dropdown); //new sql
 
 if($stmt != 0)
 	{

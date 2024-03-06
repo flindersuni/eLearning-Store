@@ -1,8 +1,7 @@
 
 <?php 
 include('bootstrap/boot1_ehlstore_bookings.html');
-$access_check="staff_check.php";
-	 
+include('staff_check.php'); 	 
 include('pdo.php');
  	 
  
