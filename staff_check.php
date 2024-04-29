@@ -6,12 +6,13 @@ $as = new \SimpleSAML\Auth\Simple('default-sp');
 $as->requireAuth();
 $attributes = $as->getAttributes();
 $_SERVER["REMOTE_USER"]=$attributes['fan'][0];
-
+$_SERVER["firstName"]=$attributes['firstName'][0];
+$_SERVER["lastName"]=$attributes['lastName'][0];
+$_SERVER["email"]=$attributes['email'][0];
 
  //error_reporting(E_ALL); 
 $real_fan=$_SERVER["REMOTE_USER"];                                                                                  
 include('pdo.php');
-
 
 
 $fan=filter_var($_SERVER['REMOTE_USER'],FILTER_UNSAFE_RAW, FILTER_NULL_ON_FAILURE);  // Jan 2024

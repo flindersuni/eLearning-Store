@@ -17,36 +17,38 @@ include ('pdo.php');
 
 <body>	
 <?php 
-
 	
 try {
 //$fan_id = $_SERVER['REMOTE_USER']; 	//temp 	'fili0008';
 //$fan_id=filter_input(INPUT_SERVER,'REMOTE_USER');	// new Nov 2023	- doesn't work beacuse of bug?
 $fan_id=filter_var($_SERVER['REMOTE_USER'],FILTER_UNSAFE_RAW, FILTER_NULL_ON_FAILURE);  // Jan 2024
-$stmt = $conn->prepare('SELECT * FROM store_staff WHERE fan_id = :fan_id');
-$stmt->bindParam(':fan_id', $fan_id, PDO::PARAM_STR);
-$stmt->execute(); 	
+//$fan_id='test000001';
+
+$stmt = $conn->prepare("SELECT * FROM store_staff WHERE fan_id= :fan_id");
+$stmt->bindParam(':fan_id', $fan_id);
+$stmt->execute();
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 catch (Exception $e) {
-echo 'Message: ' .$e->getMessage('An error occured'), "\n";	
-}	
-while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {	
-$first_name=$row['first_name'];	
-$last_name=$row['last_name'];
-$email=$row['email'];
-$phone=$row['phone'];
-$room=$row['room'];	
+echo 'Message: ' .$e->getMessage('An error occured'), "\n";
 }
 
 //echo $fan_id;
 	//exit;
 	  
- if (!$stmt) {
+ if (!$row) {
  $start_here='first_time.php';
 header('Location: '. $start_here, false);
 exit;
 echo "This seems to be your first time here.";
  } else {
+
+$first_name=$row['first_name'];
+$last_name=$row['last_name'];
+$email=$row['email'];
+$phone=$row['phone'];
+$room=$row['room'];
+
 	 
  //  fix for php8 when on real server
 
@@ -97,11 +99,13 @@ echo "<p><a class='btn btn-primary' href='categories.php'>Yes, my details are fi
 
 
 
-	}  //to be fixed
+	  //to be fixed
 
 	echo"<td>";
 
-echo "<td>"; ?>
+echo "<td>";
+}
+ ?>
 
 
 <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">

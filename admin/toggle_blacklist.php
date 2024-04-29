@@ -2,8 +2,8 @@
 	//$section = "store";
 	//$sectionmenu = "store_admin";
 	include('staff_admin_check.php'); 
-	//include("http://ehlt.flinders.edu.au/templates/setup.inc");
-	include('database_connect2.php'); 
+
+	include('../pdo.php'); 
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">

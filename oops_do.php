@@ -13,7 +13,6 @@ include('staff_check.php');
 
       <!-- Static navbar -->
 <?php include('bootstrap/nav_ehlstore_bookings.php'); 
-//include('database_connect2.php');
 include ('pdo.php') ?>
 
 

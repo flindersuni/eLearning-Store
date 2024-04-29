@@ -1,8 +1,6 @@
 <?php 
 
 include('staff_admin_check.php'); 
-//include('database_connect2.php');
-//include('ldap_connect2.php');
 $barcode=$_GET['barcode'];
 $todays_date=date('Y').".".date('n').".".date('d');
 //echo $barcode;

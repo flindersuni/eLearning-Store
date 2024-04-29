@@ -6,8 +6,6 @@ session_start();
 $_SESSION['proxy_fan'] = $_POST['fan_id'];
 
 	require('staff_admin_check.php'); 
-	//include('database_connect.php'); 
-    //include('ldap_connect2.php');	
 ?>
 <title>eLearning store bookings</title>
 </head>
@@ -32,7 +30,7 @@ $_SESSION['proxy_fan'] = $_POST['fan_id'];
 
 //echo $_SESSION [proxy_fan];
 $admin=1;
-//include ('database_connect2.php');
+
 
 $sql="INSERT INTO store_staff (fan_id, first_name, last_name) VALUES ('".$_POST['fan_id']."','".$_POST['first_name']."','".$_POST['last_name']."')" ;
 $result = $conn->query($sql);  //new sql

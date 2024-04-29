@@ -2,9 +2,7 @@
 <?php 
 include('bootstrap/boot1_ehlstore_bookings.html');
 
-    //include('staff_check.php'); 
-    //include('database_connect2.php');	 
-
+    //include('staff_check.php');
 	 ?>
 <head>
 <title>eLearning store</title>

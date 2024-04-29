@@ -4,9 +4,9 @@
 include('../bootstrap/boot1_ehlstore.html');
 
 	require('staff_admin_check.php'); 
-	//include('database_connect2.php'); //PHP 8.2 temp
+
 include('pdo.php');	 
-    //include('ldap_connect2.php');	
+
 ?>
 <title>eLearning store bookings</title>
 </head>

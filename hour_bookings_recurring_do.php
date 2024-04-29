@@ -2,7 +2,7 @@
 session_start();
 include('staff_check.php');
 //include('bootstrap/boot1_ehlstore_bookings.html');
-include('database_connect2.php');  
+include('pdo.php');  
 
 	 ?>
 

@@ -44,17 +44,15 @@ $fan=$_SERVER["REMOTE_USER"];	//was 'fili0008'
 //$fan=filter_input(INPUT_SERVER, 'REMOTE_USER');	// new Nov 2023		 
 $stmt = $conn->prepare('SELECT * FROM store_staff  WHERE fan_id =:fan');
 $stmt->bindParam(':fan', $fan, PDO::PARAM_STR);	
-$stmt->execute();	 
-	 
-while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+$stmt->execute();
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
+
 $first_name=$row['first_name'];
 $last_name=$row['last_name'];
 $email=$row['email'];
 $phone=$row['phone'];
-$room=$row['room'];	
-}
-	 
-	 
+$room=$row['room'];
+
 $db_data=array("*","_");
 $real_data=array("'"," ");
 $real_room=str_replace($db_data,$real_data,$row['room']);

@@ -1,7 +1,7 @@
 <?php 
 
 	
-	include('database_connect2.php');  
+	include('pdo.php');  
 
 
 $date_request=$_POST['date_1'];

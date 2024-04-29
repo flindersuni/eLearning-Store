@@ -1,7 +1,6 @@
 <?php 
 include('bootstrap/boot1_ehlstore_bookings.html');
-	include('staff_check.php'); 
-	include('database_connect2.php');
+	include('pdo.php');
 	
 // check to see they're not already in database
 
@@ -32,12 +31,19 @@ include('bootstrap/boot1_ehlstore_bookings.html');
 
 
 
-$sql="INSERT INTO store_staff (fan_id, first_name, last_name, email, phone, room) VALUES ('".$_POST['fan']."', '".$_POST['first_name']."', '".$_POST['last_name']."', '".$_POST['email']."', '".$_POST['phone']."', '".$_POST['room']."')" ;
+$result=$conn->prepare("INSERT INTO store_staff (fan_id, first_name, last_name, email, phone, room) VALUES (:fan,:firstname,:lastname,:email,:phone,:room)");
+$result->bindParam(':fan',$_POST["fan"]);
+$result->bindParam(':firstname',$_POST["first_name"]);
+$result->bindParam(':lastname',$_POST["last_name"]);
+$result->bindParam(':email',$_POST["email"]);
+$result->bindParam(':phone',$_POST["phone"]);
+$result->bindParam(':room',$_POST["room"]);
+$result->execute();
+
 //echo $sql;
 //$result = pg_query($dbcon, $sql);
-$result = $conn->query($sql);  //new sql	
+//new sql	
 
-pg_close;
 if (!$result) {
   echo "An error occured.\n";
   exit;

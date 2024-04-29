@@ -1,18 +1,17 @@
-<?php 
+<?php
 
+$servername = "elearn-db01p"; //DEV
+$username = "ehltadmin";
+$password = "sp@frEvu5Echa"; //DEV
+$dbname = "EHLTWEB";
+$conn = new PDO ("mysql:host=$servername;dbname=EHLTWEB", $username, $password);
 
-$servername = "webmysql-db01d"; //DEV
-$username = "fili0008";
-$password = "*rpRhGE7CrxEOUHv";//DEV
-$dbname = "Storedev";
-// Create connection
-$conn = new PDO("mysql:host=$servername;dbname=Storedev", $username, $password);	
 // Check connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
+if (!$conn) {
+    die("Connection failed ". $conn->connect_error);
 }
-//echo "Connected successfully to sql !!";
 
+//echo "Connected successfully";
+//mysqli_close($conn);
+?>
 
-
- ?>

@@ -50,7 +50,7 @@ $last_name=$_POST['last_name'];
 $email=$_POST['email'];
 $phone=$_POST['phone'];
 $room=$db_room;	
-$fan_id='fili0008';	 //was $_SERVER['REMOTE_USER'] 
+$fan_id=$_SERVER['REMOTE_USER'];
 
 	 
 	 

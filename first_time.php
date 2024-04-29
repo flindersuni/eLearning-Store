@@ -6,14 +6,16 @@ include('bootstrap/boot1_ehlstore_bookings.html');
 //$sql="SELECT * FROM store_staff WHERE fan_id = 'fili0008'";
 ///////////
 $fan_id = $_SERVER["REMOTE_USER"];	//temp	
-$stmt = $conn->prepare('SELECT * FROM store_staff WHERE fan_id = :fan_id');
-$stmt->bindParam(':fan_id', $fan_id, PDO::PARAM_STR);
-$stmt->execute(); 
+
+$stmt = $conn->prepare("SELECT * FROM store_staff WHERE fan_id=?");
+$stmt->execute([$fanID]);
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
+
 ///////////
 //echo $sql;
 //$result = $conn->query($sql);  //new sql	
 	//$nrows = pg_numrows($result);
- if($stmt) 
+ if($row) 
  {
  $denied='index.php';
 header('Location: '. $denied, false);
@@ -66,14 +68,14 @@ echo "You only have to do this one time (unless your details change). The system
    
 
     <label for="first_name">First name</label>
-    <input type="hidden" class="form-control" id="first_name" name="first_name" value="<? echo htmlspecialchars($_SERVER["firstName"],ENT_QUOTES) ?>"><p> <? echo $_SERVER["firstName"] ?><p> 
+    <input type="hidden" class="form-control" id="first_name" name="first_name" value="<?php echo htmlspecialchars($_SERVER['firstName'],ENT_QUOTES); ?>"><p> <?php echo $_SERVER["firstName"]; ?><p> 
    
  
    
      
   
     <label for="last_name">Last name</label>
-    <input type="hidden" class="form-control" id="last_name" name="last_name" value="<? echo htmlspecialchars($_SERVER['lastName'],ENT_QUOTES) ?>"><p> <? echo $_SERVER["lastName"] ?><p> 
+    <input type="hidden" class="form-control" id="last_name" name="last_name" value="<?php echo htmlspecialchars($_SERVER['lastName'],ENT_QUOTES); ?>"><p> <?php echo $_SERVER["lastName"]; ?><p> 
   
     
    
@@ -81,7 +83,7 @@ echo "You only have to do this one time (unless your details change). The system
  
   
     <label for="email">Email</label>
-    <input type="hidden" class="form-control" id="email" name="email" value="<? echo htmlspecialchars($_SERVER["email"],ENT_QUOTES) ?>"><p><? echo $_SERVER["email"] ?><p>  
+    <input type="hidden" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($_SERVER['email'],ENT_QUOTES); ?>"><p><?php echo $_SERVER["email"]; ?><p>  
  
 
     
@@ -101,7 +103,7 @@ echo "You only have to do this one time (unless your details change). The system
   </div>
   </div>
   
-<input name='fan' type='hidden' id='fan'  value='<? echo $_SERVER["REMOTE_USER"] ?>'></td>
+<input name='fan' type='hidden' id='fan'  value='<?php echo $_SERVER["REMOTE_USER"]; ?>'></td>
   <button type="submit" class="btn btn-primary">Next</button>
 </form>
 

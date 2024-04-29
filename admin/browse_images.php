@@ -1,7 +1,6 @@
 <select name="image" id="image">
 <option>--- Pick an image ---</option>	
   <?php
-//include('database_connect2.php'); 
 //drop down list of images
 $sql_dropdown="SELECT * FROM store_images ORDER BY image";
 $result_dropdown = $conn->query($sql_dropdown); //new sql;

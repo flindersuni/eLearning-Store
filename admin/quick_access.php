@@ -4,8 +4,7 @@
 include('../bootstrap/boot1_ehlstore.html');
 
 	require('staff_admin_check.php'); 
-	include('database_connect2.php'); 
-    //include('ldap_connect2.php');	
+	include('../pdo.php');	
 ?>
 <title>eLearning store quick access</title>
 <script src="../../Scripts/AC_RunActiveContent.js" type="text/javascript"></script>

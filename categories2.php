@@ -3,7 +3,7 @@
 include('bootstrap/boot1_ehlstore.html');
 
     include('staff_check.php'); 
-    include('database_connect2.php');	 
+    include('pdo.php');	 
 	$sql="SELECT * FROM store_staff WHERE fan_id = '$auth_user'";
 
 	$result = pg_query($sql);

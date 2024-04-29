@@ -4,7 +4,7 @@
 include('../bootstrap/boot1_ehlstore.html');
 
 	//require('staff_admin_check.php'); 
-	include('database_connect2.php'); 
+	include('../pdo.php'); 
     //include('../../admin/ldap_connect2.php');	
 ?>
 <title>Pre-service teacher area</title>
