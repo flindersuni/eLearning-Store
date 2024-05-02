@@ -1,10 +1,10 @@
 <?php
 
-$servername = "elearn-db01p"; //DEV
-$username = "ehltadmin";
-$password = "sp@frEvu5Echa"; //DEV
-$dbname = "EHLTWEB";
-$conn = new PDO ("mysql:host=$servername;dbname=EHLTWEB", $username, $password);
+$servername = "elearn-db01p";
+$username = "ehltdev";
+$password = "Frt12^wfg#ft5"; 
+$dbname = "elearning";
+$conn = new PDO ("mysql:host=$servername;dbname=$dbname", $username, $password);
 
 // Check connection
 if (!$conn) {
